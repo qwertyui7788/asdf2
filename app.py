@@ -1,5 +1,4 @@
 import streamlit as st
-from questions import QUESTIONS
 
 
 # =========================================================
@@ -7,11 +6,317 @@ from questions import QUESTIONS
 # =========================================================
 
 st.set_page_config(
-    page_title="밸런스 게임",
+    page_title="⚖️ 밸런스 게임",
     page_icon="⚖️",
-    layout="centered",
+    layout="wide",
     initial_sidebar_state="collapsed",
 )
+
+
+# =========================================================
+# 게임 데이터
+# =========================================================
+
+QUESTIONS = {
+    "🍕 음식": [
+        {
+            "question": "평생 하나만 먹는다면?",
+            "left": {
+                "title": "🍕 피자",
+                "description": "치즈 듬뿍! 토핑 가득한 피자",
+                "color": "#FF6B6B",
+            },
+            "right": {
+                "title": "🍗 치킨",
+                "description": "바삭바삭한 국민 야식 치킨",
+                "color": "#FFA94D",
+            },
+        },
+        {
+            "question": "둘 중 하나만 선택한다면?",
+            "left": {
+                "title": "🍜 라면",
+                "description": "매일 밤 먹어도 질리지 않는 라면",
+                "color": "#FF8787",
+            },
+            "right": {
+                "title": "🍔 햄버거",
+                "description": "두툼한 패티와 풍성한 햄버거",
+                "color": "#F08C46",
+            },
+        },
+        {
+            "question": "디저트 하나만 고른다면?",
+            "left": {
+                "title": "🍰 케이크",
+                "description": "달콤하고 부드러운 생크림 케이크",
+                "color": "#F783AC",
+            },
+            "right": {
+                "title": "🍦 아이스크림",
+                "description": "시원하고 달콤한 아이스크림",
+                "color": "#74C0FC",
+            },
+        },
+        {
+            "question": "아침 메뉴로 하나만 먹는다면?",
+            "left": {
+                "title": "🥐 빵",
+                "description": "따뜻한 빵과 커피 한 잔",
+                "color": "#D99A5B",
+            },
+            "right": {
+                "title": "🍚 밥",
+                "description": "든든한 한식 아침 식사",
+                "color": "#82C91E",
+            },
+        },
+        {
+            "question": "야식으로 하나만 선택한다면?",
+            "left": {
+                "title": "🌶️ 떡볶이",
+                "description": "매콤달콤한 국민 야식",
+                "color": "#FF6B6B",
+            },
+            "right": {
+                "title": "🍗 치킨",
+                "description": "바삭한 치킨과 시원한 콜라",
+                "color": "#F59F00",
+            },
+        },
+        {
+            "question": "하나만 고른다면?",
+            "left": {
+                "title": "🍣 초밥",
+                "description": "신선한 회와 밥의 완벽한 조합",
+                "color": "#20C997",
+            },
+            "right": {
+                "title": "🥩 스테이크",
+                "description": "육즙 가득한 두툼한 스테이크",
+                "color": "#C92A2A",
+            },
+        },
+        {
+            "question": "간식으로 더 좋은 것은?",
+            "left": {
+                "title": "🍪 과자",
+                "description": "바삭바삭한 과자 한 봉지",
+                "color": "#FCC419",
+            },
+            "right": {
+                "title": "🍫 초콜릿",
+                "description": "달콤한 초콜릿 한 조각",
+                "color": "#795548",
+            },
+        },
+    ],
+
+    "🌈 주말": [
+        {
+            "question": "이번 주말에는?",
+            "left": {
+                "title": "🏠 집콕",
+                "description": "침대에서 영화와 함께 푹 쉬기",
+                "color": "#748FFC",
+            },
+            "right": {
+                "title": "🌳 나들이",
+                "description": "친구들과 밖으로 나가기",
+                "color": "#51CF66",
+            },
+        },
+        {
+            "question": "주말에 더 끌리는 것은?",
+            "left": {
+                "title": "🎮 게임",
+                "description": "하루 종일 게임하면서 놀기",
+                "color": "#7950F2",
+            },
+            "right": {
+                "title": "🎬 영화",
+                "description": "극장에서 최신 영화 보기",
+                "color": "#E64980",
+            },
+        },
+        {
+            "question": "주말 아침에는?",
+            "left": {
+                "title": "😴 늦잠",
+                "description": "알람 없이 오후까지 자기",
+                "color": "#5C7CFA",
+            },
+            "right": {
+                "title": "☀️ 일찍 일어나기",
+                "description": "아침부터 알차게 하루 보내기",
+                "color": "#FAB005",
+            },
+        },
+        {
+            "question": "친구와 주말을 보낸다면?",
+            "left": {
+                "title": "☕ 카페",
+                "description": "조용한 카페에서 수다 떨기",
+                "color": "#A67C52",
+            },
+            "right": {
+                "title": "🎳 놀러가기",
+                "description": "볼링이나 방탈출 즐기기",
+                "color": "#20C997",
+            },
+        },
+        {
+            "question": "완벽한 주말은?",
+            "left": {
+                "title": "📚 혼자",
+                "description": "혼자만의 시간을 여유롭게 보내기",
+                "color": "#845EF7",
+            },
+            "right": {
+                "title": "👯 친구",
+                "description": "친구들과 하루 종일 놀기",
+                "color": "#FF922B",
+            },
+        },
+        {
+            "question": "주말 저녁에는?",
+            "left": {
+                "title": "🍺 맛집",
+                "description": "맛있는 음식 먹으러 가기",
+                "color": "#F08C46",
+            },
+            "right": {
+                "title": "🛋️ 휴식",
+                "description": "집에서 편하게 쉬기",
+                "color": "#748FFC",
+            },
+        },
+        {
+            "question": "주말에 하나만 한다면?",
+            "left": {
+                "title": "🏋️ 운동",
+                "description": "땀 흘리며 운동하기",
+                "color": "#40C057",
+            },
+            "right": {
+                "title": "😴 낮잠",
+                "description": "부족했던 잠을 실컷 자기",
+                "color": "#9775FA",
+            },
+        },
+    ],
+
+    "✈️ 여행": [
+        {
+            "question": "휴가를 간다면?",
+            "left": {
+                "title": "🏖️ 바다",
+                "description": "푸른 바다에서 여유로운 휴가",
+                "color": "#339AF0",
+            },
+            "right": {
+                "title": "🏔️ 산",
+                "description": "시원한 공기의 산속 여행",
+                "color": "#40C057",
+            },
+        },
+        {
+            "question": "해외여행을 간다면?",
+            "left": {
+                "title": "🇯🇵 일본",
+                "description": "맛있는 음식과 온천 여행",
+                "color": "#FF8787",
+            },
+            "right": {
+                "title": "🇫🇷 프랑스",
+                "description": "파리와 유럽 감성 여행",
+                "color": "#748FFC",
+            },
+        },
+        {
+            "question": "여행 스타일은?",
+            "left": {
+                "title": "🗺️ 계획 여행",
+                "description": "분 단위로 완벽하게 계획하기",
+                "color": "#339AF0",
+            },
+            "right": {
+                "title": "🎒 즉흥 여행",
+                "description": "발길 닿는 대로 자유롭게 떠나기",
+                "color": "#20C997",
+            },
+        },
+        {
+            "question": "숙소를 고른다면?",
+            "left": {
+                "title": "🏨 호텔",
+                "description": "편안하고 깔끔한 호텔",
+                "color": "#5C7CFA",
+            },
+            "right": {
+                "title": "🏡 펜션",
+                "description": "자연 속 아늑한 숙소",
+                "color": "#82C91E",
+            },
+        },
+        {
+            "question": "여행에서 더 중요한 것은?",
+            "left": {
+                "title": "📸 관광",
+                "description": "유명한 장소를 최대한 많이 보기",
+                "color": "#F06595",
+            },
+            "right": {
+                "title": "😌 휴식",
+                "description": "아무것도 안 하고 푹 쉬기",
+                "color": "#63E6BE",
+            },
+        },
+        {
+            "question": "여행을 누구와 간다면?",
+            "left": {
+                "title": "👫 친구",
+                "description": "친한 친구들과 신나는 여행",
+                "color": "#FF922B",
+            },
+            "right": {
+                "title": "❤️ 연인",
+                "description": "사랑하는 사람과 로맨틱한 여행",
+                "color": "#F06595",
+            },
+        },
+        {
+            "question": "여행 중 하나만 한다면?",
+            "left": {
+                "title": "🍽️ 맛집 투어",
+                "description": "현지 맛집을 찾아다니기",
+                "color": "#FF6B6B",
+            },
+            "right": {
+                "title": "📷 관광지 투어",
+                "description": "유명 관광지를 돌아다니기",
+                "color": "#339AF0",
+            },
+        },
+    ],
+}
+
+
+# =========================================================
+# 세션 상태
+# =========================================================
+
+if "screen" not in st.session_state:
+    st.session_state.screen = "home"
+
+if "category" not in st.session_state:
+    st.session_state.category = None
+
+if "question_index" not in st.session_state:
+    st.session_state.question_index = 0
+
+if "answers" not in st.session_state:
+    st.session_state.answers = []
 
 
 # =========================================================
@@ -22,205 +327,229 @@ st.markdown(
     """
     <style>
 
-    /* 전체 배경 */
+    /* 전체 페이지 */
     .stApp {
         background:
             radial-gradient(
-                circle at top left,
-                rgba(255, 107, 107, 0.12),
-                transparent 35%
+                circle at 0% 0%,
+                rgba(124, 92, 255, 0.10),
+                transparent 30%
             ),
             radial-gradient(
-                circle at top right,
-                rgba(78, 205, 196, 0.12),
-                transparent 35%
+                circle at 100% 0%,
+                rgba(255, 107, 107, 0.10),
+                transparent 30%
             ),
-            #f8f9fc;
+            #F8F9FC;
     }
 
-    /* 기본 컨테이너 */
     .block-container {
-        max-width: 900px;
-        padding-top: 2rem;
-        padding-bottom: 4rem;
+        max-width: 1100px;
+        padding-top: 45px;
+        padding-bottom: 70px;
     }
 
-    /* 제목 */
+    /* 기본 버튼 */
+    .stButton > button {
+        width: 100%;
+        min-height: 52px;
+        border-radius: 15px;
+        border: none;
+        font-size: 16px;
+        font-weight: 800;
+        transition: 0.2s;
+    }
+
+    .stButton > button:hover {
+        transform: translateY(-2px);
+    }
+
+    /* 홈 */
     .main-title {
         text-align: center;
-        font-size: 3rem;
+        font-size: 52px;
         font-weight: 900;
-        color: #202124;
-        margin-bottom: 0.3rem;
+        color: #171717;
+        margin-bottom: 8px;
         letter-spacing: -2px;
     }
 
-    .sub-title {
+    .main-subtitle {
         text-align: center;
         color: #777;
-        font-size: 1.05rem;
-        margin-bottom: 2rem;
+        font-size: 18px;
+        margin-bottom: 45px;
     }
 
-    /* 카테고리 버튼 */
+    .category-card {
+        background: rgba(255,255,255,0.95);
+        border-radius: 28px;
+        padding: 35px 25px;
+        text-align: center;
+        border: 1px solid #eeeeee;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.07);
+        min-height: 230px;
+    }
+
+    .category-icon {
+        font-size: 58px;
+        margin-bottom: 15px;
+    }
+
     .category-title {
-        font-size: 1.3rem;
-        font-weight: 800;
-        color: #333;
-        margin-bottom: 1rem;
-    }
-
-    /* 질문 */
-    .question-number {
-        text-align: center;
-        color: #888;
-        font-size: 0.95rem;
-        font-weight: 700;
-        margin-top: 1rem;
-    }
-
-    .question {
-        text-align: center;
-        font-size: 2rem;
+        font-size: 25px;
         font-weight: 900;
         color: #222;
-        margin: 1rem 0 2rem 0;
-        line-height: 1.35;
+        margin-bottom: 10px;
+    }
+
+    .category-description {
+        color: #888;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    /* 게임 상단 */
+    .game-header {
+        text-align: center;
+        color: #7C3AED;
+        font-size: 15px;
+        font-weight: 900;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+    }
+
+    .question-title {
+        text-align: center;
+        font-size: 40px;
+        font-weight: 900;
+        color: #171717;
+        margin-bottom: 35px;
         letter-spacing: -1px;
     }
 
-    /* 진행률 */
-    .progress-wrapper {
-        width: 100%;
-        height: 10px;
-        background: #e8e8ee;
-        border-radius: 20px;
-        overflow: hidden;
-        margin: 1rem 0 2rem 0;
+    .progress-label {
+        text-align: center;
+        color: #888;
+        font-size: 14px;
+        margin-top: 8px;
+        margin-bottom: 25px;
     }
 
-    .progress-bar {
-        height: 100%;
-        background: linear-gradient(
-            90deg,
-            #ff6b6b,
-            #ff8e53
-        );
-        border-radius: 20px;
-        transition: width 0.3s ease;
-    }
-
-    /* 선택 카드 */
-    .choice-card {
-        min-height: 250px;
-        padding: 30px 20px;
-        border-radius: 28px;
+    /* 게임 카드 */
+    .game-card {
+        min-height: 350px;
+        border-radius: 30px;
+        padding: 35px 25px;
+        color: white;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
         text-align: center;
-        margin-bottom: 10px;
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 20px 45px rgba(0,0,0,0.14);
     }
 
-    .choice-a {
-        background: linear-gradient(
-            145deg,
-            #ff6b6b,
-            #ff8e8e
-        );
-        color: white;
-    }
-
-    .choice-b {
-        background: linear-gradient(
-            145deg,
-            #4ecdc4,
-            #73d9d2
-        );
-        color: white;
-    }
-
-    .choice-emoji {
-        font-size: 4rem;
-        margin-bottom: 1rem;
-    }
-
-    .choice-title {
-        font-size: 1.6rem;
+    .card-title {
+        font-size: 38px;
         font-weight: 900;
-        line-height: 1.3;
+        margin-bottom: 15px;
     }
 
-    .choice-description {
-        margin-top: 0.8rem;
-        font-size: 0.95rem;
-        opacity: 0.9;
+    .card-description {
+        font-size: 16px;
+        line-height: 1.7;
+        opacity: 0.95;
+    }
+
+    .vs {
+        height: 350px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #888;
+        font-size: 28px;
+        font-weight: 900;
     }
 
     /* 결과 */
-    .result-box {
+    .result-card {
         background: white;
-        padding: 35px 25px;
-        border-radius: 28px;
+        border-radius: 30px;
+        padding: 45px 30px;
         text-align: center;
-        box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+        box-shadow: 0 18px 45px rgba(0,0,0,0.08);
+        margin-bottom: 30px;
     }
 
     .result-emoji {
-        font-size: 5rem;
+        font-size: 70px;
     }
 
     .result-title {
-        font-size: 2.2rem;
+        font-size: 36px;
         font-weight: 900;
+        margin-top: 10px;
         color: #222;
-        margin: 1rem 0;
     }
 
-    .result-text {
-        color: #777;
-        font-size: 1rem;
-        line-height: 1.7;
+    .result-subtitle {
+        color: #888;
+        margin-top: 10px;
     }
 
-    /* Streamlit 버튼 */
-    div.stButton > button {
-        width: 100%;
+    .answer-item {
+        background: white;
         border-radius: 18px;
-        border: none;
-        padding: 0.8rem 1rem;
-        font-weight: 800;
-        font-size: 1rem;
-        transition: all 0.2s ease;
+        padding: 20px;
+        margin-bottom: 12px;
+        border: 1px solid #eeeeee;
     }
 
-    div.stButton > button:hover {
-        transform: translateY(-2px);
+    .answer-number {
+        color: #999;
+        font-size: 12px;
+        font-weight: 800;
+        margin-bottom: 5px;
+    }
+
+    .answer-question {
+        color: #333;
+        font-weight: 700;
+        margin-bottom: 7px;
+    }
+
+    .answer-value {
+        color: #7C3AED;
+        font-size: 19px;
+        font-weight: 900;
     }
 
     /* 모바일 */
     @media (max-width: 768px) {
 
+        .block-container {
+            padding-top: 25px;
+        }
+
         .main-title {
-            font-size: 2.3rem;
+            font-size: 38px;
         }
 
-        .question {
-            font-size: 1.5rem;
+        .question-title {
+            font-size: 28px;
         }
 
-        .choice-card {
-            min-height: 200px;
+        .game-card {
+            min-height: 260px;
         }
 
-        .choice-emoji {
-            font-size: 3rem;
+        .card-title {
+            font-size: 30px;
         }
 
-        .choice-title {
-            font-size: 1.3rem;
+        .vs {
+            height: 60px;
         }
     }
 
@@ -231,354 +560,388 @@ st.markdown(
 
 
 # =========================================================
-# 세션 초기화
-# =========================================================
-
-if "category" not in st.session_state:
-    st.session_state.category = None
-
-if "current_question" not in st.session_state:
-    st.session_state.current_question = 0
-
-if "answers" not in st.session_state:
-    st.session_state.answers = []
-
-if "game_finished" not in st.session_state:
-    st.session_state.game_finished = False
-
-
-# =========================================================
 # 함수
 # =========================================================
 
 def start_game(category):
-    """게임 시작"""
-
+    st.session_state.screen = "game"
     st.session_state.category = category
-    st.session_state.current_question = 0
+    st.session_state.question_index = 0
     st.session_state.answers = []
-    st.session_state.game_finished = False
 
 
-def select_answer(answer):
-    """답변 선택"""
+def choose_answer(side):
+    category = st.session_state.category
+    index = st.session_state.question_index
 
-    st.session_state.answers.append(answer)
+    question = QUESTIONS[category][index]
+    selected = question[side]
 
-    current = st.session_state.current_question
-    questions = QUESTIONS[st.session_state.category]
+    st.session_state.answers.append(
+        {
+            "question": question["question"],
+            "answer": selected["title"],
+        }
+    )
 
-    if current + 1 >= len(questions):
-        st.session_state.game_finished = True
+    if index + 1 >= len(QUESTIONS[category]):
+        st.session_state.screen = "result"
     else:
-        st.session_state.current_question += 1
+        st.session_state.question_index += 1
+
+
+def go_home():
+    st.session_state.screen = "home"
+    st.session_state.category = None
+    st.session_state.question_index = 0
+    st.session_state.answers = []
 
 
 def restart_game():
-    """게임 초기화"""
+    category = st.session_state.category
 
-    st.session_state.category = None
-    st.session_state.current_question = 0
+    st.session_state.screen = "game"
+    st.session_state.question_index = 0
     st.session_state.answers = []
-    st.session_state.game_finished = False
 
 
 # =========================================================
-# 홈 화면
+# HOME
 # =========================================================
 
-if st.session_state.category is None:
+if st.session_state.screen == "home":
 
     st.markdown(
         '<div class="main-title">⚖️ 밸런스 게임</div>',
-        unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
 
     st.markdown(
-        '<div class="sub-title">'
-        '둘 중 하나만 선택한다면? 🤔'
+        '<div class="main-subtitle">'
+        '둘 중 하나만 선택할 수 있다면? 🤔'
         '</div>',
-        unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
 
-    st.markdown(
-        '<div class="category-title">🎮 게임을 선택하세요</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown("### 🎮 게임 종류를 선택하세요")
 
-    col1, col2, col3 = st.columns(3)
+    st.write("")
 
-    with col1:
-        st.markdown(
-            """
-            <div class="choice-card choice-a">
-                <div class="choice-emoji">🍔</div>
-                <div class="choice-title">음식</div>
-                <div class="choice-description">
-                    평생 하나만 먹는다면?
+    category_info = [
+        (
+            "🍕 음식",
+            "맛있는 음식 중 하나만 선택한다면?",
+            "🍕 🍗 🍔 🍰",
+        ),
+        (
+            "🌈 주말",
+            "당신의 완벽한 주말은?",
+            "🏠 🎮 🎬 🌳",
+        ),
+        (
+            "✈️ 여행",
+            "어디로 떠나고 싶나요?",
+            "🏖️ 🏔️ 🇯🇵 🇫🇷",
+        ),
+    ]
+
+    cols = st.columns(3, gap="large")
+
+    for i, (category, description, icons) in enumerate(category_info):
+
+        with cols[i]:
+
+            st.markdown(
+                f"""
+                <div class="category-card">
+
+                    <div class="category-icon">
+                        {icons}
+                    </div>
+
+                    <div class="category-title">
+                        {category}
+                    </div>
+
+                    <div class="category-description">
+                        {description}
+                    </div>
+
                 </div>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+                """,
+                unsafe_allow_html=True,
+            )
 
-        if st.button("🍔 음식 게임 시작", key="food"):
-            start_game("음식")
-            st.rerun()
+            st.write("")
 
-    with col2:
-        st.markdown(
-            """
-            <div class="choice-card choice-b">
-                <div class="choice-emoji">🏕️</div>
-                <div class="choice-title">주말</div>
-                <div class="choice-description">
-                    주말에 뭐 할까?
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+            if st.button(
+                f"{category} 게임 시작",
+                key=f"start_{i}",
+                use_container_width=True,
+            ):
+                start_game(category)
+                st.rerun()
 
-        if st.button("🏕️ 주말 게임 시작", key="weekend"):
-            start_game("주말")
-            st.rerun()
-
-    with col3:
-        st.markdown(
-            """
-            <div class="choice-card choice-a">
-                <div class="choice-emoji">✈️</div>
-                <div class="choice-title">여행</div>
-                <div class="choice-description">
-                    어디로 떠날까?
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-        if st.button("✈️ 여행 게임 시작", key="travel"):
-            start_game("여행")
-            st.rerun()
-
-    st.markdown("---")
+    st.write("")
+    st.write("")
 
     st.markdown(
         """
         <div style="
             text-align:center;
             color:#999;
-            font-size:0.9rem;
-            margin-top:2rem;
+            font-size:14px;
         ">
-        친구들과 누가 더 취향이 비슷한지 비교해보세요! 👥
+            친구와 함께 하면 더 재미있어요 😎
         </div>
         """,
-        unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
 
 
 # =========================================================
-# 게임 화면
+# GAME
 # =========================================================
 
-elif not st.session_state.game_finished:
+elif st.session_state.screen == "game":
 
     category = st.session_state.category
-    questions = QUESTIONS[category]
+    index = st.session_state.question_index
 
-    current = st.session_state.current_question
-    question = questions[current]
+    questions = QUESTIONS[category]
+    question = questions[index]
 
     total = len(questions)
-
-    progress = ((current) / total) * 100
+    current = index + 1
 
     # 상단
-    st.markdown(
-        f'<div class="main-title">⚖️ {category} 밸런스</div>',
-        unsafe_allow_html=True
-    )
+    top_left, top_right = st.columns([5, 1])
+
+    with top_left:
+        st.markdown(
+            f"### {category}"
+        )
+
+    with top_right:
+        if st.button("🏠 나가기"):
+            go_home()
+            st.rerun()
+
+    # 진행률
+    progress = current / total
+
+    st.progress(progress)
 
     st.markdown(
         f"""
-        <div class="question-number">
-            QUESTION {current + 1} / {total}
-        </div>
-
-        <div class="progress-wrapper">
-            <div
-                class="progress-bar"
-                style="width:{progress}%"
-            ></div>
+        <div class="progress-label">
+            {current} / {total}
         </div>
         """,
-        unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
 
     # 질문
     st.markdown(
-        f'<div class="question">{question["question"]}</div>',
-        unsafe_allow_html=True
+        f"""
+        <div class="game-header">
+            QUESTION {current}
+        </div>
+
+        <div class="question-title">
+            {question["question"]}
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
-    # 선택지
-    col1, col2 = st.columns(2, gap="large")
+    # 카드
+    left_col, vs_col, right_col = st.columns(
+        [5, 1, 5],
+        gap="small",
+    )
 
-    with col1:
+    # 왼쪽
+    with left_col:
 
-        st.markdown(
-            f"""
-            <div class="choice-card choice-a">
-                <div class="choice-emoji">
-                    {question["a"]["emoji"]}
-                </div>
-
-                <div class="choice-title">
-                    {question["a"]["title"]}
-                </div>
-
-                <div class="choice-description">
-                    {question["a"]["description"]}
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-        if st.button(
-            f'❤️ {question["a"]["title"]}',
-            key=f"a_{current}"
-        ):
-            select_answer("A")
-            st.rerun()
-
-    with col2:
+        left = question["left"]
 
         st.markdown(
             f"""
-            <div class="choice-card choice-b">
-                <div class="choice-emoji">
-                    {question["b"]["emoji"]}
+            <div class="game-card"
+                 style="
+                    background:
+                    linear-gradient(
+                        135deg,
+                        rgba(255,255,255,0.12),
+                        rgba(0,0,0,0.10)
+                    ),
+                    {left["color"]};
+                 ">
+
+                <div class="card-title">
+                    {left["title"]}
                 </div>
 
-                <div class="choice-title">
-                    {question["b"]["title"]}
+                <div class="card-description">
+                    {left["description"]}
                 </div>
 
-                <div class="choice-description">
-                    {question["b"]["description"]}
-                </div>
             </div>
             """,
-            unsafe_allow_html=True
+            unsafe_allow_html=True,
         )
 
+        st.write("")
+
         if st.button(
-            f'💚 {question["b"]["title"]}',
-            key=f"b_{current}"
+            "👈 이것을 선택",
+            key=f"left_{category}_{index}",
+            use_container_width=True,
         ):
-            select_answer("B")
+            choose_answer("left")
             st.rerun()
 
-    # 홈으로
-    st.markdown("")
+    # VS
+    with vs_col:
 
-    if st.button("🏠 게임 선택으로 돌아가기"):
-        restart_game()
-        st.rerun()
+        st.markdown(
+            """
+            <div class="vs">
+                VS
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    # 오른쪽
+    with right_col:
+
+        right = question["right"]
+
+        st.markdown(
+            f"""
+            <div class="game-card"
+                 style="
+                    background:
+                    linear-gradient(
+                        135deg,
+                        rgba(255,255,255,0.12),
+                        rgba(0,0,0,0.10)
+                    ),
+                    {right["color"]};
+                 ">
+
+                <div class="card-title">
+                    {right["title"]}
+                </div>
+
+                <div class="card-description">
+                    {right["description"]}
+                </div>
+
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        st.write("")
+
+        if st.button(
+            "이것을 선택 👉",
+            key=f"right_{category}_{index}",
+            use_container_width=True,
+        ):
+            choose_answer("right")
+            st.rerun()
 
 
 # =========================================================
-# 결과 화면
+# RESULT
 # =========================================================
 
-else:
+elif st.session_state.screen == "result":
 
     category = st.session_state.category
     answers = st.session_state.answers
 
-    a_count = answers.count("A")
-    b_count = answers.count("B")
-
-    total = len(answers)
-
-    if a_count > b_count:
-        winner = "A"
-        result_emoji = "❤️"
-        result_title = "A 선택이 더 많아요!"
-    elif b_count > a_count:
-        winner = "B"
-        result_emoji = "💚"
-        result_title = "B 선택이 더 많아요!"
-    else:
-        winner = "DRAW"
-        result_emoji = "⚖️"
-        result_title = "완벽한 반반 취향!"
-        
     st.markdown(
-        '<div class="main-title">🎉 게임 종료!</div>',
-        unsafe_allow_html=True
+        """
+        <div class="main-title">
+            🎉 게임 완료!
+        </div>
+
+        <div class="main-subtitle">
+            당신의 선택을 확인해보세요.
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
     st.markdown(
         f"""
-        <div class="result-box">
+        <div class="result-card">
 
             <div class="result-emoji">
-                {result_emoji}
+                🏆
             </div>
 
             <div class="result-title">
-                {result_title}
+                {category} 밸런스 게임 완료!
             </div>
 
-            <div class="result-text">
-                총 {total}개의 질문에 답했습니다.<br><br>
-
-                ❤️ A 선택: <strong>{a_count}</strong>개<br>
-                💚 B 선택: <strong>{b_count}</strong>개
+            <div class="result-subtitle">
+                총 {len(answers)}개의 질문에 답했습니다.
             </div>
 
         </div>
         """,
-        unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
 
-    st.markdown("")
+    st.markdown("### 📋 나의 선택")
 
-    # 결과 메시지
-    if winner == "A":
+    for i, answer in enumerate(answers):
 
-        st.success(
-            "당신은 A 선택지를 선호하는 편이에요! ❤️"
+        st.markdown(
+            f"""
+            <div class="answer-item">
+
+                <div class="answer-number">
+                    QUESTION {i + 1}
+                </div>
+
+                <div class="answer-question">
+                    {answer["question"]}
+                </div>
+
+                <div class="answer-value">
+                    👉 {answer["answer"]}
+                </div>
+
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
 
-    elif winner == "B":
-
-        st.success(
-            "당신은 B 선택지를 선호하는 편이에요! 💚"
-        )
-
-    else:
-
-        st.info(
-            "어느 한쪽도 포기할 수 없는 균형 잡힌 취향이네요! ⚖️"
-        )
-
-    st.markdown("")
+    st.write("")
 
     col1, col2 = st.columns(2)
 
     with col1:
 
-        if st.button("🔄 다시 하기"):
-            start_game(category)
+        if st.button(
+            "🔄 다시 하기",
+            use_container_width=True,
+        ):
+            restart_game()
             st.rerun()
 
     with col2:
 
-        if st.button("🏠 다른 게임"):
-            restart_game()
+        if st.button(
+            "🏠 다른 게임 선택",
+            use_container_width=True,
+        ):
+            go_home()
             st.rerun()

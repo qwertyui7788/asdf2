@@ -1,9 +1,9 @@
 import streamlit as st
 import random
 
-# --------------------------------------------------
-# 기본 설정
-# --------------------------------------------------
+# ==================================================
+# 페이지 설정
+# ==================================================
 
 st.set_page_config(
     page_title="밸런스 게임",
@@ -11,11 +11,12 @@ st.set_page_config(
     layout="wide"
 )
 
-# --------------------------------------------------
-# 게임 데이터
-# --------------------------------------------------
 
-GAME_DATA = {
+# ==================================================
+# 게임 데이터
+# ==================================================
+
+GAMES = {
     "🍔 음식": [
         ("평생 하나만 먹어야 한다면?", "🍗 치킨", "🍕 피자"),
         ("더 좋아하는 면 요리는?", "🍜 라면", "🍝 파스타"),
@@ -77,407 +78,179 @@ GAME_DATA = {
 }
 
 
-# --------------------------------------------------
-# CSS
-# --------------------------------------------------
-
-st.markdown(
-    """
-    <style>
-
-    .stApp {
-        background: linear-gradient(
-            135deg,
-            #fff5f7 0%,
-            #f5f3ff 50%,
-            #eef6ff 100%
-        );
-    }
-
-    .block-container {
-        max-width: 1100px;
-        padding-top: 35px;
-    }
-
-    .main-title {
-        text-align: center;
-        font-size: 48px;
-        font-weight: 900;
-        color: #171717;
-        margin-bottom: 5px;
-    }
-
-    .main-subtitle {
-        text-align: center;
-        font-size: 18px;
-        color: #777;
-        margin-bottom: 35px;
-    }
-
-    .category-card {
-        background: white;
-        padding: 30px 20px;
-        border-radius: 25px;
-        text-align: center;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.07);
-        margin-bottom: 12px;
-    }
-
-    .category-icon {
-        font-size: 50px;
-        margin-bottom: 10px;
-    }
-
-    .category-name {
-        font-size: 22px;
-        font-weight: 800;
-    }
-
-    .category-count {
-        color: #999;
-        margin-top: 5px;
-    }
-
-    .question-card {
-        background: rgba(255,255,255,0.9);
-        padding: 35px;
-        border-radius: 28px;
-        text-align: center;
-        box-shadow: 0 12px 35px rgba(0,0,0,0.07);
-        margin-bottom: 25px;
-    }
-
-    .question-number {
-        color: #7357ff;
-        font-size: 15px;
-        font-weight: 800;
-        margin-bottom: 12px;
-    }
-
-    .question-text {
-        font-size: 30px;
-        font-weight: 900;
-        color: #222;
-    }
-
-    .choice-left {
-        background: linear-gradient(
-            135deg,
-            #ff6b6b,
-            #ff416c
-        );
-        color: white;
-        min-height: 240px;
-        border-radius: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 25px;
-        box-shadow: 0 15px 35px rgba(255,65,108,0.25);
-    }
-
-    .choice-right {
-        background: linear-gradient(
-            135deg,
-            #4facfe,
-            #6a5cff
-        );
-        color: white;
-        min-height: 240px;
-        border-radius: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 25px;
-        box-shadow: 0 15px 35px rgba(80,80,255,0.25);
-    }
-
-    .choice-text {
-        font-size: 28px;
-        font-weight: 900;
-    }
-
-    .vs {
-        height: 240px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 24px;
-        font-weight: 900;
-        color: #999;
-    }
-
-    .result-card {
-        background: white;
-        padding: 40px;
-        border-radius: 30px;
-        text-align: center;
-        box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-    }
-
-    .result-title {
-        font-size: 40px;
-        font-weight: 900;
-    }
-
-    .answer-card {
-        background: white;
-        border-radius: 20px;
-        padding: 20px;
-        margin: 10px 0;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-    }
-
-    @media (max-width: 700px) {
-
-        .main-title {
-            font-size: 36px;
-        }
-
-        .question-text {
-            font-size: 23px;
-        }
-
-        .choice-left,
-        .choice-right {
-            min-height: 170px;
-        }
-
-        .choice-text {
-            font-size: 22px;
-        }
-
-        .vs {
-            height: 50px;
-        }
-    }
-
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-
-# --------------------------------------------------
+# ==================================================
 # Session State
-# --------------------------------------------------
+# ==================================================
 
 if "page" not in st.session_state:
     st.session_state.page = "home"
 
 if "category" not in st.session_state:
-    st.session_state.category = None
+    st.session_state.category = ""
 
 if "questions" not in st.session_state:
     st.session_state.questions = []
 
-if "current" not in st.session_state:
-    st.session_state.current = 0
+if "question_index" not in st.session_state:
+    st.session_state.question_index = 0
 
 if "answers" not in st.session_state:
     st.session_state.answers = []
 
 
-# --------------------------------------------------
-# 게임 시작
-# --------------------------------------------------
+# ==================================================
+# 함수
+# ==================================================
 
 def start_game(category):
-
-    questions = GAME_DATA[category].copy()
+    questions = GAMES[category].copy()
 
     random.shuffle(questions)
 
     st.session_state.category = category
     st.session_state.questions = questions
-    st.session_state.current = 0
+    st.session_state.question_index = 0
     st.session_state.answers = []
     st.session_state.page = "game"
 
 
-# --------------------------------------------------
-# 답변
-# --------------------------------------------------
+def select_answer(answer):
+    st.session_state.answers.append(answer)
 
-def answer(choice):
+    st.session_state.question_index += 1
 
-    st.session_state.answers.append(choice)
-    st.session_state.current += 1
-
-    if st.session_state.current >= len(
+    if st.session_state.question_index >= len(
         st.session_state.questions
     ):
         st.session_state.page = "result"
 
 
-# --------------------------------------------------
-# 홈 화면
-# --------------------------------------------------
+def go_home():
+    st.session_state.page = "home"
+    st.session_state.category = ""
+    st.session_state.questions = []
+    st.session_state.question_index = 0
+    st.session_state.answers = []
+
+
+# ==================================================
+# 공통 제목
+# ==================================================
+
+st.title("⚖️ 밸런스 게임")
+
+st.caption("둘 중 하나만 선택할 수 있다면? 당신의 선택은?")
+
+
+# ==================================================
+# HOME
+# ==================================================
 
 if st.session_state.page == "home":
 
-    st.markdown(
-        '<div class="main-title">⚖️ 밸런스 게임</div>',
-        unsafe_allow_html=True
-    )
+    st.header("🎮 게임을 선택하세요")
 
-    st.markdown(
-        '<div class="main-subtitle">'
-        '둘 중 하나만 선택할 수 있다면?'
-        '</div>',
-        unsafe_allow_html=True
-    )
+    st.write("")
 
-    st.subheader("🎮 카테고리를 선택하세요")
+    categories = list(GAMES.keys())
 
-    categories = list(GAME_DATA.keys())
-
-    for row_start in range(0, len(categories), 3):
-
-        row = categories[row_start:row_start + 3]
+    # 3개씩 배치
+    for i in range(0, len(categories), 3):
 
         cols = st.columns(3)
 
-        for i, category in enumerate(row):
+        for j, category in enumerate(
+            categories[i:i + 3]
+        ):
 
-            with cols[i]:
+            with cols[j]:
 
-                icon = category.split()[0]
-                name = " ".join(category.split()[1:])
+                st.subheader(category)
 
-                st.markdown(
-                    f"""
-                    <div class="category-card">
-
-                        <div class="category-icon">
-                            {icon}
-                        </div>
-
-                        <div class="category-name">
-                            {name}
-                        </div>
-
-                        <div class="category-count">
-                            {len(GAME_DATA[category])}개의 질문
-                        </div>
-
-                    </div>
-                    """,
-                    unsafe_allow_html=True
+                st.write(
+                    f"질문 {len(GAMES[category])}개"
                 )
 
                 if st.button(
-                    f"{name} 시작",
-                    key=f"category_{category}",
+                    "게임 시작",
+                    key=f"start_{category}",
                     use_container_width=True
                 ):
                     start_game(category)
                     st.rerun()
 
 
-# --------------------------------------------------
-# 게임 화면
-# --------------------------------------------------
+# ==================================================
+# GAME
+# ==================================================
 
 elif st.session_state.page == "game":
 
     category = st.session_state.category
-    questions = st.session_state.questions
-    current = st.session_state.current
 
-    question, left, right = questions[current]
+    questions = st.session_state.questions
+
+    index = st.session_state.question_index
+
+    question, left, right = questions[index]
 
     total = len(questions)
 
-    st.markdown(
-        f"""
-        <div class="main-title">
-            {category}
-        </div>
-        """,
-        unsafe_allow_html=True
+    # 카테고리
+    st.header(category)
+
+    # 진행률
+    st.progress(
+        index / total
     )
 
-    st.progress(current / total)
-
-    st.markdown(
-        f"""
-        <div class="question-card">
-
-            <div class="question-number">
-                QUESTION {current + 1} / {total}
-            </div>
-
-            <div class="question-text">
-                {question}
-            </div>
-
-        </div>
-        """,
-        unsafe_allow_html=True
+    st.caption(
+        f"QUESTION {index + 1} / {total}"
     )
 
+    # 질문
+    st.subheader(question)
+
+    st.write("")
+
+    # 선택 카드
     left_col, middle_col, right_col = st.columns(
         [5, 1, 5]
     )
 
     with left_col:
 
-        st.markdown(
-            f"""
-            <div class="choice-left">
-
-                <div class="choice-text">
-                    {left}
-                </div>
-
-            </div>
-            """,
-            unsafe_allow_html=True
+        st.info(
+            f"# {left}"
         )
 
         if st.button(
             "👈 왼쪽 선택",
-            key=f"left_{current}",
+            key=f"left_{index}",
             use_container_width=True
         ):
-            answer(left)
+            select_answer(left)
             st.rerun()
 
     with middle_col:
 
         st.markdown(
-            """
-            <div class="vs">
-                VS
-            </div>
-            """,
+            "<h2 style='text-align:center'>VS</h2>",
             unsafe_allow_html=True
         )
 
     with right_col:
 
-        st.markdown(
-            f"""
-            <div class="choice-right">
-
-                <div class="choice-text">
-                    {right}
-                </div>
-
-            </div>
-            """,
-            unsafe_allow_html=True
+        st.success(
+            f"# {right}"
         )
 
         if st.button(
             "오른쪽 선택 👉",
-            key=f"right_{current}",
+            key=f"right_{index}",
             use_container_width=True
         ):
-            answer(right)
+            select_answer(right)
             st.rerun()
 
     st.write("")
@@ -486,70 +259,36 @@ elif st.session_state.page == "game":
         "🏠 게임 종료",
         use_container_width=True
     ):
-        st.session_state.page = "home"
+        go_home()
         st.rerun()
 
 
-# --------------------------------------------------
-# 결과 화면
-# --------------------------------------------------
+# ==================================================
+# RESULT
+# ==================================================
 
 elif st.session_state.page == "result":
 
-    st.markdown(
-        """
-        <div class="result-card">
+    st.header("🎉 게임 완료!")
 
-            <div class="result-title">
-                🎉 게임 완료!
-            </div>
-
-            <p>
-                당신의 선택을 확인해보세요.
-            </p>
-
-        </div>
-        """,
-        unsafe_allow_html=True
+    st.write(
+        f"당신의 선택 결과입니다."
     )
 
     st.write("")
 
-    for i, choice in enumerate(
+    for i, answer in enumerate(
         st.session_state.answers
     ):
 
         question = st.session_state.questions[i][0]
 
-        st.markdown(
-            f"""
-            <div class="answer-card">
+        st.subheader(
+            f"Q{i + 1}. {question}"
+        )
 
-                <div style="
-                    color:#999;
-                    font-size:14px;
-                ">
-                    Q{i + 1}
-                </div>
-
-                <div style="
-                    font-weight:700;
-                    margin:5px 0;
-                ">
-                    {question}
-                </div>
-
-                <div style="
-                    color:#6a5cff;
-                    font-size:20px;
-                    font-weight:900;
-                ">
-                    👉 {choice}
-                </div>
-
-            </div>
-            """,
-            unsafe_allow_html=True
+        st.success(
+            f"👉 {answer}"
         )
 
     st.write("")
@@ -562,9 +301,11 @@ elif st.session_state.page == "result":
             "🔄 다시 하기",
             use_container_width=True
         ):
+
             start_game(
                 st.session_state.category
             )
+
             st.rerun()
 
     with col2:
@@ -573,5 +314,6 @@ elif st.session_state.page == "result":
             "🏠 다른 게임",
             use_container_width=True
         ):
-            st.session_state.page = "home"
+
+            go_home()
             st.rerun()
